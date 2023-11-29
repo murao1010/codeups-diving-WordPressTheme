@@ -263,7 +263,7 @@ $contact = esc_url(home_url('/contact'));
           <div class="voice__items voice-cards">
             <!-- ▼ お客様の声 ループ ▼ -->
             <?php while ($the_query->have_posts()) : $the_query->the_post(); ?>
-              <a href="#" class="voice-cards__item voice-card">
+              <div class="voice-cards__item voice-card">
                 <div class="voice-card__head">
                   <div class="voice-card__head-textarea">
                     <div class="voice-card__tag-wrap">
@@ -306,7 +306,7 @@ $contact = esc_url(home_url('/contact'));
                     </p>
                   </div>
                 </div>
-              </a>
+              </div>
             <?php endwhile; ?>
             <!-- ▲ お客様の声 ループ ▲ -->
           </div>

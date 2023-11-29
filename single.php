@@ -44,7 +44,7 @@
           </div>
           <?php endwhile; ?>
           <?php endif; ?>
-          <!-- もとも作ってたページネーション -->
+          <!-- ページネーション -->
           <div class="lower-pagination lower-pagination--single pagination">
             <div class="pagination__inner inner">
               <ul class="pagination__items">

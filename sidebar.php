@@ -64,7 +64,7 @@
       ?>
         <?php while ($my_query->have_posts()) : $my_query->the_post(); ?>
           <!-- ▽ ループ開始 ▽ -->
-          <a href="#" class="voice-article__item voice-card-small">
+          <div class="voice-article__item voice-card-small">
             <div class="voice-card-small__image">
               <?php
               $customerImage = get_field('voice_image');
@@ -78,7 +78,7 @@
               <div class="voice-card-small__age-sex"><?php the_field('voice_age_gender'); ?></div>
               <h3 class="voice-card-small__title"><?php the_title(); ?></h3>
             </div>
-          </a>
+          </div>
           <!-- △ ループ終了 △ -->
         <?php endwhile; ?>
       <?php else : // 投稿がない場合
@@ -105,7 +105,7 @@
       ?>
         <?php while ($my_query->have_posts()) : $my_query->the_post(); ?>
           <!-- ▽ ループ開始 ▽ -->
-          <a href="" class="campaign-article__item campaign-card-small">
+          <div class="campaign-article__item campaign-card-small">
             <div class="campaign-card-small__image">
               <?php
               $customerImage = get_field('campaign_image');
@@ -127,7 +127,7 @@
                 </div>
               </div>
             </div>
-          </a>
+          </div>
           <!-- △ ループ終了 △ -->
         <?php endwhile; ?>
       <?php else : // 投稿がない場合

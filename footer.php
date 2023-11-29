@@ -44,7 +44,7 @@
   </main>
   <!-- トップに戻るボタン -->
   <div class="top-button">
-    <a href="#top"><img src="<?php echo get_theme_file_uri(); ?>/assets/images/common/toTOP.png" alt="画面の上部に戻るボタン"></a>
+    <a href="header"><img src="<?php echo get_theme_file_uri(); ?>/assets/images/common/toTOP.png" alt="画面の上部に戻るボタン"></a>
   </div>
   <?php endif; ?>
 
@@ -73,7 +73,7 @@
       <div class="footer__inner inner">
         <div class="footer__heading">
           <div class="footer__logo">
-            <a href="index.html"><img src="<?php echo get_theme_file_uri(); ?>/assets/images/common/CodeUps_2.svg" alt="codeups"></a>
+            <a href="<?php echo $home; ?>"><img src="<?php echo get_theme_file_uri(); ?>/assets/images/common/CodeUps_2.svg" alt="codeups"></a>
           </div>
           <div class="footer__sns">
             <a href="https://www.facebook.com" target="_blank" class="footer__sns-facebook"><img src="<?php echo get_theme_file_uri(); ?>/assets/images/common/Facebook-Logo.png"
