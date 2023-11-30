@@ -7,25 +7,31 @@ jQuery(function ($) {
   /* ローディングアニメーション
   /* -------------------------------------------- */
   $(window).on("load", function () {
-    var loadCount = sessionStorage.getItem("loadCount");
+    // ウィンドウの幅を取得
+    var windowWidth = $(window).width();
 
-    // 初回のロード時の処理
-    if (loadCount === null) {
-      $(".js-loading").delay(0).fadeIn(900);
-      $(".js-loading-title").delay(300).fadeIn(800);
-      $(".js-loading").delay(2500).fadeOut(900);
-      $("body").delay(2500) // ローディング画面を表示した時間に合わせて適切な時間を設定
-      .queue(function (next) {
+    // 幅が768px以下の場合はアニメーションを発動させない
+    if (windowWidth > 768) {
+      var loadCount = sessionStorage.getItem("loadCount");
+
+      // 初回のロード時の処理
+      if (loadCount === null) {
+        $(".js-loading").delay(0).fadeIn(900);
+        $(".js-loading-title").delay(300).fadeIn(800);
+        $(".js-loading").delay(2500).fadeOut(900);
+        $("body").delay(2500) // ローディング画面を表示した時間に合わせて適切な時間を設定
+        .queue(function (next) {
+          $("body").removeClass("js-fixed");
+          next();
+        });
+        sessionStorage.setItem("loadCount", 1);
+      } else {
+        // 2回目以降のロード時の処理
+        $(".js-loading").hide();
+        $(".js-loading-title").hide();
         $("body").removeClass("js-fixed");
-        next();
-      });
-      sessionStorage.setItem("loadCount", 1);
-    } else {
-      // 2回目以降のロード時の処理
-      $(".js-loading").hide();
-      $(".js-loading-title").hide();
-      $("body").removeClass("js-fixed");
-      $(window).scrollTop(0); // スクロール位置をトップに戻す
+        $(window).scrollTop(0); // スクロール位置をトップに戻す
+      }
     }
   });
 
