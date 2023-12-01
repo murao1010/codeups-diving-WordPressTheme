@@ -1446,8 +1446,11 @@ a {
 .contact-form__item {
 	border-bottom: 1px dashed #408F95;
 	display: block;
+	margin: 0 auto;
+	max-width: 30rem;
 	padding-bottom: 1.375rem;
 	padding-top: 1.375rem;
+	width: 100%;
 }
 
 .contact-form__item:first-child {
@@ -1648,7 +1651,7 @@ a {
 	height: 1.375rem;
 	left: 0;
 	position: absolute;
-	top: 20%;
+	top: 0.8125rem;
 	transform: translateY(-50%);
 	width: 1.375rem;
 }
@@ -2253,7 +2256,7 @@ a {
 	order: -1;
 	padding: 0.625rem;
 	text-align: center;
-	width: 6.375rem;
+	width: 29.56521%;
 }
 
 .information-main__menu-item.is-active {
@@ -4128,6 +4131,8 @@ html {
 .contact-form__item {
 	display: flex;
 	justify-content: space-between;
+	max-width: none;
+	max-width: initial;
 	padding-bottom: 2.4375rem;
 	padding-top: 2.4375rem;
 }
