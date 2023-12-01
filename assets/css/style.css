@@ -1688,6 +1688,22 @@ a {
 	border: 1px solid #C94800;
 }
 
+.wpcf7 .contact-form__checkbox p .wpcf7-form-control-wrap .wpcf7-not-valid {
+	border: none !important;
+}
+
+.wpcf7 .contact-form__checkbox p .wpcf7-form-control-wrap .wpcf7-not-valid {
+	background: rgba(201, 72, 0, 0.2);
+}
+
+.wpcf7 .contact-from__privacy-check p .wpcf7-form-control-wrap .wpcf7-not-valid {
+	border: none !important;
+}
+
+.wpcf7 .contact-from__privacy-check p .wpcf7-form-control-wrap .wpcf7-not-valid {
+	background: rgba(201, 72, 0, 0.2);
+}
+
 .wpcf7 .wpcf7-not-valid::-moz-placeholder {
 	color: #fff !important;
 }
@@ -2828,7 +2844,7 @@ a {
 	background-color: #408F95;
 	padding-bottom: 1rem;
 	padding-left: 1rem;
-	padding-right: 1rem;
+	padding-right: 3.25rem;
 	padding-top: 1rem;
 	position: relative;
 }
