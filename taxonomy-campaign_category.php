@@ -1,5 +1,9 @@
 <?php get_header(); ?>
 
+<?php
+$contact = esc_url(home_url('/contact'));
+?>
+
   <!-- メインコンテンツ -->
   <main>
     <!-- 下層ページのメインビュー -->
@@ -101,7 +105,7 @@
                   <p class="campaign-main-card__info-text">ご予約・お問い合わせはコチラ</p>
                 </div>
                 <div class="campaign-main-card__button-wrap">
-                  <a href="<?php echo esc_url(home_url('/page-contact.php')); ?>" class="button">Contact&nbsp;us<span></span></a>
+                  <a href="<?php echo $contact; ?>" class="button">Contact&nbsp;us<span></span></a>
                 </div>
               </div>
             </div>

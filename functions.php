@@ -117,7 +117,7 @@ add_action('admin_menu', 'change_post_menu_label');
 /**
  * 人気記事抽出
  */
-//記事のアクセス数を表示
+/*記事のアクセス数を表示*/
 function getPostViews($postID){
 	$count_key = 'post_views_count';
 	$count = get_post_meta($postID, $count_key, true);
@@ -129,7 +129,7 @@ function getPostViews($postID){
 	return $count.' Views';
 }
 
-//記事のアクセス数を保存
+/*記事のアクセス数を保存*/
 function setPostViews($postID) {
 	$count_key = 'post_views_count';
 	$count = get_post_meta($postID, $count_key, true);
@@ -172,30 +172,74 @@ function custom_post_link_rewrite($rules) {
 }
 
 /**
- * アーカイブの表示件数変更
- * 管理画面＞設定＞表示設定 は1件で設定している
+ * 表示件数変更
+ * 管理画面＞設定＞表示設定 は10件で設定している
  */
 function change_posts_per_page($query) {
   if ( is_admin() || ! $query->is_main_query() )
       return;
 
-	if($query->is_home()){ // ブログ一覧
-	$query->set( 'posts_per_page', '10' ); //10件
-	}
-
-	if($query->is_date()){ // 月別アーカイブ
-		$query->set( 'posts_per_page', '10' ); //10件
-		}
-
-  if ( $query->is_post_type_archive('campaign') ) { // カスタム投稿タイプを指定
-      $query->set( 'posts_per_page', '4' ); // 表示件数を指定
+	/* カスタム投稿の表示件数変更*/
+  if ( $query->is_post_type_archive('campaign') ) {
+      $query->set( 'posts_per_page', '4' );
+  }
+  if ( $query->is_post_type_archive('voice') ) {
+      $query->set( 'posts_per_page', '6' );
   }
 
-  if ( $query->is_post_type_archive('voice') ) { // カスタム投稿タイプを指定
-      $query->set( 'posts_per_page', '6' ); // 表示件数を指定
+	/* カスタムタクソノミーの表示件数変更*/
+	if ( $query->is_tax('campaign_category') ) {
+    $query->set( 'posts_per_page', '4' );
+  }
+	if ( $query->is_tax('voice_category') ) {
+    $query->set( 'posts_per_page', '6' );
   }
 }
+
 add_action( 'pre_get_posts', 'change_posts_per_page' );
+
+
+/**
+ * Contact Form 7 セレクトボックスの選択肢をカスタム投稿のタイトルから自動生成
+ */
+//関数の作成
+function campaign_selectlist($tag, $unused)
+{
+    //セレクトボックスの名前が'menu-65'かどうか
+    if ($tag['name'] != 'menu-65') {
+        return $tag;
+    }
+
+    //get_posts()でセレクトボックスの中身を作成する
+    //クエリの作成
+    $args = array(
+        'numberposts' => -1,
+        'post_type' => 'campaign', //カスタム投稿タイプを指定
+        //並び順⇒セレクトボックス内の表示順
+        'orderby' => 'ID',
+        'order' => 'ASC'
+    );
+
+    //クエリをget_posts()に入れる
+    $job_posts = get_posts($args);
+
+    //クエリがなければ戻す
+    if (!$job_posts) {
+        return $tag;
+    }
+
+    //セレクトボックスにforeachで入れる
+    foreach ($job_posts as $job_post) {
+        $tag['raw_values'][] = $job_post->post_title;
+        $tag['values'][] = $job_post->post_title;
+        $tag['labels'][] = $job_post->post_title;
+    }
+
+    return $tag;
+}
+
+add_filter('wpcf7_form_tag', 'campaign_selectlist', 10, 2);
+
 
 /**
  * サンクスページの表示
@@ -213,3 +257,10 @@ function redirect_to_thanks_page() {
 }
 
 
+/**
+ * Contact Form 7で自動挿入されるPタグ、brタグを削除
+ */
+add_filter('wpcf7_autop_or_not', 'wpcf7_autop_return_false');
+function wpcf7_autop_return_false() {
+  return false;
+}

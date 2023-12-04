@@ -1691,19 +1691,19 @@ a {
 	border: 1px solid #C94800;
 }
 
-.wpcf7 .contact-form__checkbox p .wpcf7-form-control-wrap .wpcf7-not-valid {
+.wpcf7 .contact-form__checkbox .wpcf7-form-control-wrap .wpcf7-not-valid {
 	border: none !important;
 }
 
-.wpcf7 .contact-form__checkbox p .wpcf7-form-control-wrap .wpcf7-not-valid {
+.wpcf7 .contact-form__checkbox .wpcf7-form-control-wrap .wpcf7-not-valid {
 	background: rgba(201, 72, 0, 0.2);
 }
 
-.wpcf7 .contact-from__privacy-check p .wpcf7-form-control-wrap .wpcf7-not-valid {
+.wpcf7 .contact-from__privacy-check .wpcf7-form-control-wrap .wpcf7-not-valid {
 	border: none !important;
 }
 
-.wpcf7 .contact-from__privacy-check p .wpcf7-form-control-wrap .wpcf7-not-valid {
+.wpcf7 .contact-from__privacy-check .wpcf7-form-control-wrap .wpcf7-not-valid {
 	background: rgba(201, 72, 0, 0.2);
 }
 
