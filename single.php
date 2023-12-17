@@ -51,30 +51,29 @@
                 <li class="pagination__prev">
                   <?php
                   $prev_post = get_previous_post();
-                  if (!empty($prev_post)) {
+                  if (!empty($prev_post)) :
                     $url = get_permalink($prev_post->ID);
                     echo '<a class="pagination__item-prev" href="' . esc_url($url) . '"></a>';
-                  }
+                  endif;
                   ?>
                 </li>
                 <li class="pagination__next">
                   <?php
                   $next_post = get_next_post();
-                  if (!empty($next_post)) {
+                  if (!empty($next_post)) :
                     $url = get_permalink($next_post->ID);
                     echo '<a class="pagination__item-next" href="' . esc_url($url) . '"></a>';
-                  }
+                  endif;
                   ?>
                 </li>
               </ul>
             </div>
           </div>
-
-
-
-
         </div>
-        <?php get_sidebar(); ?>
+        <!-- サイドバー -->
+        <div class="blog-main__sidebar blog-main__sidebar--single">
+          <?php get_sidebar(); ?>
+        </div>
       </div>
     </div>
   </div>

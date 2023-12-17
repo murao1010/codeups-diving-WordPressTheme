@@ -30,15 +30,15 @@
             'taxonomy' => 'voice_category',
             'hide_empty' => false,
           ));
-          if ($terms) {
-            foreach ($terms as $term) {
+          if ($terms) :
+            foreach ($terms as $term) :
           ?>
-            <li class="category__item <?php echo (is_tax('voice_category', $term->term_id)) ? 'is-active' : ''; ?>">
-              <a href="<?php echo esc_url(get_term_link($term)); ?>"><?php echo esc_html($term->name); ?></a>
-            </li>
+              <li class="category__item <?php echo (is_tax('voice_category', $term->term_id)) ? 'is-active' : ''; ?>">
+                <a href="<?php echo esc_url(get_term_link($term)); ?>"><?php echo esc_html($term->name); ?></a>
+              </li>
           <?php
-            }
-          }
+            endforeach;
+          endif;
           ?>
         </ul>
       </nav>
@@ -48,21 +48,23 @@
             <div class="voice-cards__item voice-card">
               <div class="voice-card__head">
                 <div class="voice-card__head-textarea">
-                  <div class="voice-card__tag-wrap">
+                <div class="voice-card__tag-wrap">
+                  <?php if (!empty(get_field('voice_age_gender'))) : ?>
                     <div class="voice-card__age-sex"><?php the_field('voice_age_gender'); ?></div>
-                    <div class="voice-card__tag">
-                      <?php
-                      $terms = get_the_terms($post->ID, 'voice_category');
-                      if (!empty($terms)) {
-                        foreach ($terms as $term) :
-                          echo $term->name;
-                        endforeach;
-                      } else {
+                  <?php endif; ?>
+                  <div class="voice-card__tag">
+                    <?php
+                    $terms = get_the_terms($post->ID, 'voice_category');
+                    if (!empty($terms)) :
+                      foreach ($terms as $term) :
+                        echo $term->name;
+                      endforeach;
+                      else :
                         echo '未分類';
-                      }
-                      ?>
-                    </div>
+                      endif;
+                    ?>
                   </div>
+                </div>
                   <h3 class="voice-card__title"><?php the_title(); ?></h3>
                 </div>
                 <div class="voice-card__image">
@@ -81,15 +83,17 @@
                 </div>
               </div>
             </div>
-        <?php endwhile;
-        endif; ?>
+          <?php endwhile;
+        else : ?>
+          <p>まだ投稿がありません。</p>
+        <?php endif; ?>
       </div>
     </div>
   </div>
   <!-- ページネーション -->
   <div class="lower-pagination pagination">
     <div class="pagination__inner inner">
-    <?php wp_pagenavi(); ?>
+      <?php wp_pagenavi(); ?>
     </div>
   </div>
 

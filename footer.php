@@ -3,7 +3,7 @@
     ?>
 
     <!-- お問い合わせ -->
-    <?php if (! is_404()) : ?>
+    <?php if (! is_404() && ! is_page(array('contact', 'thanks'))) : ?>
     <section class="contact top-contact">
       <div class="contact__inner inner">
         <div class="contact__contents">
@@ -42,12 +42,13 @@
       </div>
     </section>
   </main>
+  <?php endif; ?>
+  <?php if (! is_404() && ! is_page('thanks')) : ?>
   <!-- トップに戻るボタン -->
   <div class="top-button">
     <a href="header"><img src="<?php echo get_theme_file_uri(); ?>/assets/images/common/toTOP.png" alt="画面の上部に戻るボタン"></a>
   </div>
   <?php endif; ?>
-
   <?php
   $home = esc_url(home_url('/'));
   $campaign = esc_url(home_url('/campaign'));

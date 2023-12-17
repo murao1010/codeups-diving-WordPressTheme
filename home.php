@@ -40,23 +40,27 @@
                     <h3 class="blog-card__title"><?php the_title(); ?></h3>
                     <div class="blog-card__text-block">
                       <p class="blog-card__text">
-                      <?php echo mb_substr(get_the_excerpt(), 0, 85); ?>
+                        <?php echo mb_substr(get_the_excerpt(), 0, 85); ?>
                       </p>
                     </div>
                   </div>
                 </a>
-            <?php endwhile;
-            endif; ?>
+              <?php endwhile;
+            else : ?>
+              <p>まだ投稿がありません。</p>
+            <?php endif; ?>
           </div>
           <!-- WP-Pagenaviのページネーション -->
           <div class="lower-pagination wp-pagenavi wp-pagenavi--single pagination">
             <div class="wp-pagenavi__inner inner">
-            <?php wp_pagenavi(); ?>
+              <?php wp_pagenavi(); ?>
             </div>
           </div>
         </div>
         <!-- サイドバー -->
-        <?php get_sidebar(); ?>
+        <div class="blog-main__sidebar blog-main__sidebar--single">
+          <?php get_sidebar(); ?>
+        </div>
       </div>
     </div>
   </div>

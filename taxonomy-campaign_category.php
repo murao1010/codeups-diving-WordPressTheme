@@ -34,35 +34,22 @@ $contact = esc_url(home_url('/contact'));
             'taxonomy' => 'campaign_category',
             'hide_empty' => false,
           ));
-          if ($terms) {
-            foreach ($terms as $term) {
+          if ($terms) :
+            foreach ($terms as $term) :
           ?>
             <li class="category__item <?php echo (is_tax('campaign_category', $term->term_id)) ? 'is-active' : ''; ?>">
               <a href="<?php echo esc_url(get_term_link($term)); ?>"><?php echo esc_html($term->name); ?></a>
             </li>
           <?php
-            }
-          }
+            endforeach;
+          endif;
           ?>
           </ul>
         </nav>
         <!-- キャンペーン アイテム -->
         <div class="campaign-main__contents">
-        <?php
-        $term_object = get_queried_object();
-        $term_slug = $term_object->slug;
-        $paged = get_query_var('paged') ? get_query_var('paged') : 1;
-        $args = array(
-          'post_type' => 'campaign',
-          'posts_per_page' => 4,
-          'taxonomy' => 'campaign_category',
-          'term' => $term_slug,
-          'paged' => $paged,
-        );
-        $the_query = new WP_Query($args);
-        ?>
-
-        <?php if ($the_query -> have_posts()) : while ($the_query -> have_posts()) : $the_query -> the_post(); ?>
+        <!-- WPループ処理開始 -->
+        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
           <div class="campaign-main__item">
             <div class="campaign-main-card">
               <div class="campaign-main-card__image">
@@ -78,15 +65,15 @@ $contact = esc_url(home_url('/contact'));
                 <div class="campaign-main-card__title-block">
                   <p class="campaign-main-card__tag">
                   <?php
-                      $terms = get_the_terms($post->ID, 'campaign_category');
-                      if (!empty($terms)) {
-                        foreach ($terms as $term) :
-                          echo $term->name;
-                        endforeach;
-                      } else {
+                    $terms = get_the_terms($post->ID, 'campaign_category');
+                    if (!empty($terms)) :
+                      foreach ($terms as $term) :
+                        echo $term->name;
+                      endforeach;
+                      else :
                         echo '未分類';
-                      }
-                      ?>
+                      endif;
+                    ?>
                   </p>
                   <h3 class="campaign-main-card__title"><?php the_title(); ?></h3>
                 </div>
@@ -119,9 +106,7 @@ $contact = esc_url(home_url('/contact'));
     <!-- ページネーション -->
     <div class="lower-pagination pagination">
       <div class="pagination__inner inner">
-      <?php if (function_exists('wp_pagenavi')) {
-        wp_pagenavi(array('query' => $the_query));
-      } ?>
+      <?php wp_pagenavi(); ?>
       </div>
     </div>
 

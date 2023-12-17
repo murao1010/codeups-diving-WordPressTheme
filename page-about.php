@@ -53,23 +53,24 @@
       <div class="gallery__container">
         <?php
         $photos = SCF::get('gallery_photos'); // 繰り返しフィールドの値を取得する
-        if (!empty($photos)) { // 繰り返しフィールドに値がある場合に処理を行う
-          foreach ($photos as $photo) { // 繰り返し構文で各値を順次取り出す
+        if (!empty($photos)) : // 繰り返しフィールドに値がある場合に処理を行う
+          foreach ($photos as $photo) : // 繰り返し構文で各値を順次取り出す
             $gallery_image = wp_get_attachment_image_src($photo['gallery_photo'], 'full'); // work_imageを取得して変数に代入する
-            if ($gallery_image) { // work_imageが存在する場合に処理を行う
+            if ($gallery_image) : // work_imageが存在する場合に処理を行う
               $gallery_image_url = esc_url($gallery_image[0]); // work_imageのURLをエスケープ処理して変数に代入する
               $alt = get_post_meta($gallery_image, '_wp_attachment_image_alt', true);
-            }
-          ?>
-          <?php if ($gallery_image) { ?>
-            <div class="gallery__image js-gallery">
-              <img src="<?php echo $gallery_image_url; ?>" alt="フォトギャラリーの写真">
-            </div>
-          <?php } ?>
-        <?php
-          }
-        }
-      ?>
+            endif;
+        ?>
+            <?php if ($gallery_image) : ?>
+              <div class="gallery__image js-gallery">
+                <img src="<?php echo $gallery_image_url; ?>" alt="フォトギャラリーの写真">
+              </div>
+            <?php endif; ?>
+          <?php
+          endforeach;
+        else : ?>
+          <p>まだ投稿がありません。</p>
+        <?php endif; ?>
       </div>
     </div>
     <div id="gallery__gray-display"></div>

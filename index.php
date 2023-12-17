@@ -96,13 +96,13 @@ $contact = esc_url(home_url('/contact'));
                           <p class="campaign-card__tag">
                             <?php
                             $terms = get_the_terms($post->ID, 'campaign_category');
-                            if (!empty($terms)) {
+                            if (!empty($terms)) :
                               foreach ($terms as $term) :
                                 echo $term->name;
                               endforeach;
-                            } else {
-                              echo '未分類';
-                            }
+                              else :
+                                echo '未分類';
+                              endif;
                             ?>
                           </p>
                           <h3 class="campaign-card__title"><?php the_title(); ?></h3>
@@ -271,13 +271,13 @@ $contact = esc_url(home_url('/contact'));
                       <div class="voice-card__tag">
                         <?php
                         $terms = get_the_terms($post->ID, 'voice_category');
-                        if (!empty($terms)) {
+                        if (!empty($terms)) :
                           foreach ($terms as $term) :
                             echo $term->name;
                           endforeach;
-                        } else {
-                          echo '未分類';
-                        }
+                          else :
+                            echo '未分類';
+                          endif;
                         ?>
                       </div>
                     </div>

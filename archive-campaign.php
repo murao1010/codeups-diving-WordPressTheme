@@ -34,15 +34,15 @@ $contact = esc_url(home_url('/contact'));
             'taxonomy' => 'campaign_category',
             'hide_empty' => false,
           ));
-          if ($terms) {
-            foreach ($terms as $term) {
+          if ($terms) :
+            foreach ($terms as $term) :
           ?>
             <li class="category__item <?php echo (is_tax('campaign_category', $term->term_id)) ? 'is-active' : ''; ?>">
               <a href="<?php echo esc_url(get_term_link($term)); ?>"><?php echo esc_html($term->name); ?></a>
             </li>
           <?php
-            }
-          }
+            endforeach;
+          endif;
           ?>
           </ul>
         </nav>
@@ -65,30 +65,36 @@ $contact = esc_url(home_url('/contact'));
                 <div class="campaign-main-card__title-block">
                   <p class="campaign-main-card__tag">
                   <?php
-                      $terms = get_the_terms($post->ID, 'campaign_category');
-                      if (!empty($terms)) {
-                        foreach ($terms as $term) :
-                          echo $term->name;
-                        endforeach;
-                      } else {
+                    $terms = get_the_terms($post->ID, 'campaign_category');
+                    if (!empty($terms)) :
+                      foreach ($terms as $term) :
+                        echo $term->name;
+                      endforeach;
+                      else :
                         echo '未分類';
-                      }
-                      ?>
+                      endif;
+                    ?>
                   </p>
                   <h3 class="campaign-main-card__title"><?php the_title(); ?></h3>
                 </div>
                 <div class="campaign-main-card__price-block">
                   <p class="campaign-main-card__text">全部コミコミ(お一人様)</p>
                   <div class="campaign-main-card__price-wrap">
-                    <p class="campaign-main-card__price-before"><?php the_field('campaign_price_before'); ?></p>
-                    <p class="campaign-main-card__price-after"><?php the_field('campaign_price_after'); ?></p>
+                    <?php if (!empty(get_field('campaign_price_before'))) : ?>
+                      <p class="campaign-main-card__price-before"><?php the_field('campaign_price_before'); ?></p>
+                    <?php endif; ?>
+                    <?php if (!empty(get_field('campaign_price_after'))) : ?>
+                      <p class="campaign-main-card__price-after"><?php the_field('campaign_price_after'); ?></p>
+                    <?php endif; ?>
                   </div>
                 </div>
                 <div class="campaign-main-card__text-block">
                   <p class="campaign-main-card__text2"><?php the_field('campaign_text'); ?></p>
                 </div>
                 <div class="campaign-main-card__info">
-                  <p class="campaign-main-card__info-date"><?php the_field('campaign_date'); ?></p>
+                  <?php if (!empty(get_field('campaign_date'))) : ?>
+                    <p class="campaign-main-card__info-date"><?php the_field('campaign_date'); ?></p>
+                  <?php endif; ?>
                   <p class="campaign-main-card__info-text">ご予約・お問い合わせはコチラ</p>
                 </div>
                 <div class="campaign-main-card__button-wrap">
@@ -98,7 +104,9 @@ $contact = esc_url(home_url('/contact'));
             </div>
           </div>
           <?php endwhile;
-          endif; ?>
+        else : ?>
+          <p>まだ投稿がありません。</p>
+        <?php endif; ?>
         </div>
       </div>
     </div>

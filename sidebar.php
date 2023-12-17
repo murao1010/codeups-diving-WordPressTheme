@@ -1,10 +1,10 @@
 <?php
-  $voice = esc_url(home_url('/voice'));
-  $campaign = esc_url(home_url('/campaign'));
+$voice = esc_url(home_url('/voice'));
+$campaign = esc_url(home_url('/campaign'));
 ?>
 
 <!-- サイドバー -->
-<aside class="blog-main__sidebar blog-main__sidebar--single sidebar">
+<aside class="sidebar">
   <!-- 人気記事 -->
   <div class="sidebar__block popular-article">
     <div class="sidebar__title popular-article__title"><span></span>人気記事</div>
@@ -29,11 +29,11 @@
           <a href="<?php echo esc_url(get_permalink()); ?>" class="popular-article__item blog-card-small">
             <div class="blog-card-small__image">
               <?php
-              if (has_post_thumbnail()) {
+              if (has_post_thumbnail()) :
                 echo get_the_post_thumbnail(get_the_ID(), 'thumbnail');
-              } else {
+              else:
                 echo '<img src="' . esc_url(get_template_directory_uri()) . '/assets/images/common/noimage.png" alt="サムネイル画像no-image" />';
-              }
+              endif;
               ?>
             </div>
             <div class="blog-card-small__body">
@@ -122,8 +122,12 @@
               <div class="campaign-card-small__price-block">
                 <p class="campaign-card-small__text">全部コミコミ(お一人様)</p>
                 <div class="campaign-card-small__price-wrap">
-                  <p class="campaign-card-small__price-before"><?php the_field('campaign_price_before'); ?></p>
-                  <p class="campaign-card-small__price-after"><?php the_field('campaign_price_after'); ?></p>
+                  <?php if (!empty(get_field('campaign_price_before'))) : ?>
+                    <p class="campaign-card-small__price-before"><?php the_field('campaign_price_before'); ?></p>
+                  <?php endif; ?>
+                  <?php if (!empty(get_field('campaign_price_after'))) : ?>
+                    <p class="campaign-card-small__price-after"><?php the_field('campaign_price_after'); ?></p>
+                  <?php endif; ?>
                 </div>
               </div>
             </div>
@@ -144,37 +148,34 @@
   <div class="sidebar__block archive">
     <div class="sidebar__title archive__title"><span></span>アーカイブ</div>
     <div class="archive__wrap">
-    <?php
-    $year_month = null;
-    $year = null;
-    $month = null;
-    $args = array(
-        'post_type' => 'post',   // 投稿タイプを指定
-        'orderby' => 'date',     // 日付順で表示
-        'order' => 'DESC',
-        'posts_per_page' => -1   // すべての投稿を表示
-    );
-    $the_query = new WP_Query($args);
-    ?>
-    <ul>
-        <?php if ($the_query->have_posts()) : ?>
-            <?php while ($the_query->have_posts()) : $the_query->the_post(); ?>
-                <?php if ($year_month != get_the_date('Y.m')) : // 同じ年月でなければ表示
-                    $year_month = get_the_date('Y.m');
-                    $year = get_the_date('Y'); // 年の取得
-                    $month = get_the_date('m'); // 月の取得
-                    ?>
-                    <p class="archive__year"><?php echo $year; ?></p>
-                    <ul class="archive__lists">
-                        <!-- 月別アーカイブリスト -->
-                        <li><a href="<?php echo get_month_link($year, $month); ?>"><?php echo $month; ?>月</a></li>
-                    </ul>
-                <?php endif; ?>
-            <?php endwhile; ?>
-        <?php else : ?>
-        <?php endif; ?>
-        <?php wp_reset_query(); ?>
-    </ul>
+      <?php
+      $year_prev = null;
+      $postType = get_post_type();
+      $months = $wpdb->get_results("SELECT DISTINCT MONTH( post_date ) AS month ,
+                                  YEAR( post_date ) AS year,
+                                  COUNT( id ) as post_count FROM $wpdb->posts
+                                  WHERE post_status = 'publish' and post_date <= now( )
+                                  and post_type = '$postType'
+                                  GROUP BY month , year
+                                  ORDER BY post_date DESC");
+      foreach ($months as $month) :
+        $year_current = $month->year;
+        if ($year_current != $year_prev) :
+          if ($year_prev != null) : ?>
+            </ul>
+          <?php endif; ?>
+          <p class="archive__year"><?php echo $month->year; ?></p>
+          <ul class="archive__lists">
+          <?php endif; ?>
+          <!-- 月別アーカイブリスト -->
+          <li>
+            <a href="<?php echo esc_url(home_url('/')); ?>date/<?php echo $month->year; ?>/<?php echo date("m", mktime(0, 0, 0, $month->month, 1, $month->year)); ?>">
+              <?php echo date("n", mktime(0, 0, 0, $month->month, 1, $month->year)) ?>月(<?php echo $month->post_count; ?>)
+            </a>
+          </li>
+          <?php $year_prev = $year_current; ?>
+        <?php endforeach; ?>
+          </ul>
     </div>
   </div>
 </aside>

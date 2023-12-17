@@ -1001,6 +1001,7 @@ a {
 	font-size: 1.25rem;
 	font-weight: 700;
 	line-height: 1;
+	margin-right: 1rem;
 	position: relative;
 }
 
@@ -1022,7 +1023,6 @@ a {
 	font-size: 2rem;
 	font-weight: 700;
 	line-height: 1;
-	margin-left: 1rem;
 }
 
 .campaign-card {
@@ -1111,6 +1111,7 @@ a {
 	font-size: 1.25rem;
 	font-weight: 700;
 	line-height: 1;
+	margin-right: 1rem;
 	position: relative;
 }
 
@@ -1132,7 +1133,6 @@ a {
 	font-size: 2rem;
 	font-weight: 700;
 	line-height: 1;
-	margin-left: 1rem;
 }
 
 .campaign-category__items {
@@ -1257,6 +1257,7 @@ a {
 	font-size: 1.25rem;
 	font-weight: 700;
 	line-height: 1;
+	margin-right: 1rem;
 	position: relative;
 }
 
@@ -1278,7 +1279,6 @@ a {
 	font-size: 2rem;
 	font-weight: 700;
 	line-height: 1;
-	margin-left: 1rem;
 }
 
 .campaign-main-card__text-block {
@@ -3943,6 +3943,7 @@ html {
 
 .campaign-card-small__price-before {
 	font-size: 1.25rem;
+	margin-right: 1.5625rem;
 }
 
 .campaign-card-small__price-before::before {
@@ -3952,7 +3953,6 @@ html {
 .campaign-card-small__price-after {
 	font-size: 2rem;
 	line-height: 1;
-	margin-left: 1.5625rem;
 }
 
 .campaign-card__body {
@@ -3984,6 +3984,7 @@ html {
 
 .campaign-card__price-before {
 	font-size: 1.5rem;
+	margin-right: 1.5625rem;
 }
 
 .campaign-card__price-before::before {
@@ -3993,7 +3994,6 @@ html {
 .campaign-card__price-after {
 	font-size: 2.5rem;
 	line-height: 1;
-	margin-left: 1.5625rem;
 }
 
 .campaign-category__items {
@@ -4037,6 +4037,7 @@ html {
 
 .campaign-main-card__price-before {
 	font-size: 1.5rem;
+	margin-right: 2.625rem;
 }
 
 .campaign-main-card__price-before::before {
@@ -4046,7 +4047,6 @@ html {
 .campaign-main-card__price-after {
 	font-size: 2.5rem;
 	line-height: 1;
-	margin-left: 2.625rem;
 }
 
 .campaign-main-card__text-block {
@@ -4634,6 +4634,10 @@ html {
 
 .price-table__item {
 	height: auto;
+}
+
+.price-table__item.price-table__item--h88 {
+	height: 5.5rem;
 }
 
 .price-table__item dt {

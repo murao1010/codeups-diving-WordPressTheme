@@ -30,70 +30,58 @@
             'taxonomy' => 'voice_category',
             'hide_empty' => false,
           ));
-          if ($terms) {
-            foreach ($terms as $term) {
+          if ($terms) :
+            foreach ($terms as $term) :
           ?>
             <li class="category__item <?php echo (is_tax('voice_category', $term->term_id)) ? 'is-active' : ''; ?>">
               <a href="<?php echo esc_url(get_term_link($term)); ?>"><?php echo esc_html($term->name); ?></a>
             </li>
           <?php
-            }
-          }
+            endforeach;
+          endif;
           ?>
         </ul>
       </nav>
+      <!-- お客様の声 アイテム -->
       <div class="voice-main__contents voice-cards">
-        <?php
-        $term_object = get_queried_object();
-        $term_slug = $term_object->slug;
-        $paged = get_query_var('paged') ? get_query_var('paged') : 1;
-        $args = array(
-          'post_type' => 'voice',
-          'posts_per_page' => 6,
-          'taxonomy' => 'voice_category',
-          'term' => $term_slug,
-          'paged' => $paged
-        );
-        $the_query = new WP_Query($args);
-        ?>
-
-        <?php if ($the_query -> have_posts()) : while ($the_query -> have_posts()) : $the_query -> the_post(); ?>
-            <div class="voice-cards__item voice-card">
-              <div class="voice-card__head">
-                <div class="voice-card__head-textarea">
-                  <div class="voice-card__tag-wrap">
-                    <div class="voice-card__age-sex"><?php the_field('voice_age_gender'); ?></div>
-                    <div class="voice-card__tag">
-                      <?php
-                      $terms = get_the_terms($post->ID, 'voice_category');
-                      if (!empty($terms)) {
-                        foreach ($terms as $term) :
-                          echo $term->name;
-                        endforeach;
-                      } else {
-                        echo '未分類';
-                      }
-                      ?>
-                    </div>
-                  </div>
-                  <h3 class="voice-card__title"><?php the_title(); ?></h3>
-                </div>
-                <div class="voice-card__image">
+        <!-- WPループ処理開始 -->
+        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+          <div class="voice-cards__item voice-card">
+            <div class="voice-card__head">
+              <div class="voice-card__head-textarea">
+                <div class="voice-card__tag-wrap">
+                  <div class="voice-card__age-sex"><?php the_field('voice_age_gender'); ?></div>
+                  <div class="voice-card__tag">
                   <?php
-                  $customerImage = get_field('voice_image');
-                  if (!empty($customerImage)) : ?>
-                    <img src="<?php echo esc_url($customerImage['url']); ?>" alt="<?php echo esc_attr($customerImage['alt']); ?>">
-                  <?php else : ?>
-                    <img src="<?php echo esc_url(get_template_directory_uri('full')); ?>/assets/images/common/noimage.png" alt="サムネイル画像no-image" />
-                  <?php endif; ?>
+                  $terms = get_the_terms($post->ID, 'voice_category');
+                  if (!empty($terms)) :
+                    foreach ($terms as $term) :
+                      echo $term->name;
+                    endforeach;
+                  else :
+                    echo '未分類';
+                  endif;
+                  ?>
+                  </div>
                 </div>
+                <h3 class="voice-card__title"><?php the_title(); ?></h3>
               </div>
-              <div class="voice-card__body">
-                <div class="voice-card__text-block">
-                  <p class="voice-card__text"><?php the_field('voice_main'); ?></p>
-                </div>
+              <div class="voice-card__image">
+                <?php
+                $customerImage = get_field('voice_image');
+                if (!empty($customerImage)) : ?>
+                  <img src="<?php echo esc_url($customerImage['url']); ?>" alt="<?php echo esc_attr($customerImage['alt']); ?>">
+                <?php else : ?>
+                  <img src="<?php echo esc_url(get_template_directory_uri('full')); ?>/assets/images/common/noimage.png" alt="サムネイル画像no-image" />
+                <?php endif; ?>
               </div>
             </div>
+            <div class="voice-card__body">
+              <div class="voice-card__text-block">
+                <p class="voice-card__text"><?php the_field('voice_main'); ?></p>
+              </div>
+            </div>
+          </div>
         <?php endwhile;
         endif; ?>
         <?php wp_reset_postdata(); ?>
@@ -102,9 +90,7 @@
     <!-- ページネーション -->
     <div class="lower-pagination pagination">
       <div class="pagination__inner inner">
-      <?php if (function_exists('wp_pagenavi')) {
-        wp_pagenavi(array('query' => $the_query));
-      } ?>
+      <?php wp_pagenavi(); ?>
       </div>
     </div>
 
