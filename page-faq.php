@@ -24,7 +24,7 @@
         <?php if (have_posts()) : ?>
           <?php while (have_posts()) : the_post(); ?>
             <?php
-            $faqs = SCF::get('faq'); // 繰り返しフィールドの値を取得する
+            $faqs = SCF::get_option_meta('faq-options', 'faq'); // 繰り返しフィールドの値を取得する
             if (!empty($faqs)) : // 繰り返しフィールドに値がある場合に処理を行う
               foreach ($faqs as $faq) : // 繰り返し構文で各値を順次取り出す
                 $faqQuestion = esc_html($faq['faq_q']); // license_courseをエスケープ処理して変数に代入する

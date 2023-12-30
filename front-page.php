@@ -32,7 +32,7 @@ $contact = esc_url(home_url('/contact'));
       <!-- Swiper -->
       <div class="js-mv-swiper">
         <div class="swiper-wrapper">
-          <?php
+        <?php
           // ACFで作成したカスタムフィールドから画像情報を取得
           $i = 1;
           while ($desktop_image = get_field('desktop_image_' . $i)) :

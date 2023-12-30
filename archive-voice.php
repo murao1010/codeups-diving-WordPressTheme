@@ -48,23 +48,27 @@
             <div class="voice-cards__item voice-card">
               <div class="voice-card__head">
                 <div class="voice-card__head-textarea">
-                <div class="voice-card__tag-wrap">
-                  <?php if (!empty(get_field('voice_age_gender'))) : ?>
-                    <div class="voice-card__age-sex"><?php the_field('voice_age_gender'); ?></div>
-                  <?php endif; ?>
-                  <div class="voice-card__tag">
-                    <?php
-                    $terms = get_the_terms($post->ID, 'voice_category');
-                    if (!empty($terms)) :
-                      foreach ($terms as $term) :
-                        echo $term->name;
-                      endforeach;
-                      else :
-                        echo '未分類';
-                      endif;
-                    ?>
+                  <div class="voice-card__tag-wrap">
+                    <?php if (have_rows('voice_age_gender')) : ?>
+                      <?php while (have_rows('voice_age_gender')) : the_row(); ?>
+                        <?php if (!empty(get_sub_field('age'))) : ?>
+                          <div class="voice-card__age-sex"><?php the_sub_field('age'); ?>代(<?php the_sub_field('gender'); ?>)</div>
+                        <?php endif; ?>
+                        <div class="voice-card__tag">
+                          <?php
+                          $terms = get_the_terms($post->ID, 'voice_category');
+                          if (!empty($terms)) :
+                            foreach ($terms as $term) :
+                              echo $term->name;
+                            endforeach;
+                          else :
+                            echo '未分類';
+                          endif;
+                          ?>
+                        </div>
+                      <?php endwhile; ?>
+                    <?php endif; ?>
                   </div>
-                </div>
                   <h3 class="voice-card__title"><?php the_title(); ?></h3>
                 </div>
                 <div class="voice-card__image">

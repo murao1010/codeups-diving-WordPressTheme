@@ -285,3 +285,54 @@ add_filter( 'get_the_archive_title', function ($title) {
 }
   return $title;
 });
+
+/**
+ * SCFでのオプションページ作成
+ * @param string $page_title ページのtitle属性値
+ * @param string $menu_title 管理画面のメニューに表示するタイトル
+ * @param string $capability メニューを操作できる権限（manage_options とか）
+ * @param string $menu_slug オプションページのスラッグ。ユニークな値にすること。
+ * @param string|null $icon_url メニューに表示するアイコンの URL
+ * @param int $position メニューの位置
+ */
+SCF::add_options_page( 'CodeUps-Diving', 'ギャラリー画像', 'manage_options', 'gallery-options','dashicons-images-alt2','7' );
+SCF::add_options_page( 'CodeUps-Diving', '料金一覧', 'manage_options', 'price-options','dashicons-money-alt','8' );
+SCF::add_options_page( 'CodeUps-Diving', 'よくある質問', 'manage_options', 'faq-options','dashicons-editor-help','9' );
+
+/**
+ * 固定ページの不要な項目を非表示にする
+ */
+function my_remove_post_editor_support() {
+  remove_post_type_support( 'page', 'editor' );//本文
+  remove_post_type_support( 'page', 'thumbnail' ); // アイキャッチ
+}
+add_action( 'init' , 'my_remove_post_editor_support' );
+
+/**
+ * 固定ページのメタボックスを非表示にする
+ */
+function remove_pageedit_metabox() {
+  remove_meta_box( 'postcustom','page','normal' ); // カスタムフィールド
+  remove_meta_box( 'commentstatusdiv','page','normal' ); // ディスカッション
+  remove_meta_box( 'slugdiv','page','normal' ); // スラッグ
+  remove_meta_box( 'authordiv','page','normal' ); // 投稿者
+  remove_meta_box( 'pageparentdiv', 'page', 'normal' ); // ページ属性
+  remove_meta_box( 'revisionsdiv','page','normal' ); // リビジョン
+  remove_meta_box( 'submitdiv', 'page', 'side' ); // 公開
+}
+add_action('admin_menu','remove_pageedit_metabox');
+
+/**
+ * カスタム投稿のタイトル部分のプレースホルダー
+ */
+function custom_editor_placeholder($placeholder, $post) {
+  if ($post->post_type == 'voice') {
+    $placeholder = 'タイトルを入力【20字以内で入力してください】';
+  } elseif ($post->post_type == 'campaign') {
+    $placeholder = 'キャンペーン名を入力してください';
+  }
+
+  return $placeholder;
+}
+
+add_filter('enter_title_here', 'custom_editor_placeholder', 10, 2);
