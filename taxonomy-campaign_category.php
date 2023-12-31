@@ -80,15 +80,29 @@ $contact = esc_url(home_url('/contact'));
                 <div class="campaign-main-card__price-block">
                   <p class="campaign-main-card__text">全部コミコミ(お一人様)</p>
                   <div class="campaign-main-card__price-wrap">
-                    <p class="campaign-main-card__price-before"><?php the_field('campaign_price_before'); ?></p>
-                    <p class="campaign-main-card__price-after"><?php the_field('campaign_price_after'); ?></p>
+                  <?php if (!empty(get_field('campaign_price_before'))) : ?>
+                      <p class="campaign-main-card__price-before"><?php the_field('campaign_price_before'); ?></p>
+                    <?php endif; ?>
+                    <?php if (!empty(get_field('campaign_price_after'))) : ?>
+                      <p class="campaign-main-card__price-after"><?php the_field('campaign_price_after'); ?></p>
+                    <?php endif; ?>
                   </div>
                 </div>
                 <div class="campaign-main-card__text-block">
                   <p class="campaign-main-card__text2"><?php the_field('campaign_text'); ?></p>
                 </div>
                 <div class="campaign-main-card__info">
-                  <p class="campaign-main-card__info-date"><?php the_field('campaign_date'); ?></p>
+                <?php if (have_rows('campaign_date')) : ?>
+                  <?php while (have_rows('campaign_date')) : the_row(); ?>
+                    <?php
+                      $campaign_date_1 = get_sub_field('campaign_date_1');
+                      $campaign_date_2 = get_sub_field('campaign_date_2');
+                    ?>
+                    <?php if ($campaign_date_1 && $campaign_date_2) : ?>
+                      <p class="campaign-main-card__info-date"><?php echo $campaign_date_1; ?> - <?php echo $campaign_date_2; ?></p>
+                    <?php endif; ?>
+                  <?php endwhile; ?>
+                <?php endif; ?>
                   <p class="campaign-main-card__info-text">ご予約・お問い合わせはコチラ</p>
                 </div>
                 <div class="campaign-main-card__button-wrap">

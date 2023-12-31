@@ -6,7 +6,7 @@ $about = esc_url(home_url('/about'));
 $information = esc_url(home_url('/information'));
 $blog = esc_url(home_url('/blog'));
 $voice = esc_url(home_url('/voice'));
-$price = esc_url(home_url('/price'));
+$pricePage = esc_url(home_url('/price'));
 $contact = esc_url(home_url('/contact'));
 ?>
 
@@ -278,7 +278,13 @@ $contact = esc_url(home_url('/contact'));
                 <div class="voice-card__head">
                   <div class="voice-card__head-textarea">
                     <div class="voice-card__tag-wrap">
-                      <div class="voice-card__age-sex"><?php the_field('voice_age_gender'); ?></div>
+                    <?php if (have_rows('voice_age_gender')) : ?>
+                        <?php while (have_rows('voice_age_gender')) : the_row(); ?>
+                          <?php if (!empty(get_sub_field('age'))) : ?>
+                            <div class="voice-card__age-sex"><?php the_sub_field('age'); ?>代(<?php the_sub_field('gender'); ?>)</div>
+                          <?php endif; ?>
+                        <?php endwhile; ?>
+                      <?php endif; ?>
                       <div class="voice-card__tag">
                         <?php
                         $terms = get_the_terms($post->ID, 'voice_category');
@@ -344,106 +350,44 @@ $contact = esc_url(home_url('/contact'));
               <img src="<?php echo get_theme_file_uri(); ?>/assets/images/common/Price-SP.jpg" alt="PCのときは珊瑚と小魚、スマホの時はウミガメ">
             </picture>
           </div>
-          <?php if (have_posts()) : ?><?php while (have_posts()) : the_post(); ?>
-          <div class="price__content">
-            <!-- ライセンス講習 -->
-            <?php
-              $page_id = get_page_by_path('price');
-              $page_id = $page_id->ID; //ページIDを取得して$page_idに代入
-              $licensePrices = SCF::get('price_license', $page_id); // 繰り返しフィールドの値を取得する
-              if (!empty($licensePrices) && !empty(array_filter($licensePrices[0]))) : // 空でない配列かつ中身が空でない場合に処理を行う
-            ?>
-              <div class="price__block price-block">
-                <h3 class="price-block__title">ライセンス講習</h3>
-                <dl class="price-block__items">
-                  <?php
-                    foreach ($licensePrices as $licensePrice) : // 繰り返し構文で各値を順次取り出す
-                      $licenseCourse = esc_html($licensePrice['license_course']); // license_courseをエスケープ処理して変数に代入する
-                      $licenseFee = esc_html($licensePrice['license_fee']); // license_feeをエスケープ処理して変数に代入する
-                  ?>
-                    <div class="price-block__item">
-                      <dt><?php echo $licenseCourse; ?></dt>
-                      <dd><?php echo $licenseFee; ?></dd>
-                    </div>
-                  <?php endforeach; ?>
-                </dl>
-              </div>
-            <?php endif; ?>
-            <!-- 体験ダイビング -->
-            <?php
-              $page_id = get_page_by_path('price');
-              $page_id = $page_id->ID; //ページIDを取得して$page_idに代入
-              $licensePrices = SCF::get('price_trial-diving', $page_id); // 繰り返しフィールドの値を取得する
-              if (!empty($licensePrices) && !empty(array_filter($licensePrices[0]))) : // 空でない配列かつ中身が空でない場合に処理を行う
-            ?>
-              <div class="price__block price-block">
-                <h3 class="price-block__title">体験ダイビング</h3>
-                <dl class="price-block__items">
-                  <?php
-                    foreach ($licensePrices as $licensePrice) : // 繰り返し構文で各値を順次取り出す
-                      $licenseCourse = esc_html($licensePrice['trial-diving_course']); // trial-diving_courseをエスケープ処理して変数に代入する
-                      $licenseFee = esc_html($licensePrice['trial-diving_fee']); // trial-diving_feeをエスケープ処理して変数に代入する
-                  ?>
-                    <div class="price-block__item">
-                      <dt><?php echo $licenseCourse; ?></dt>
-                      <dd><?php echo $licenseFee; ?></dd>
-                    </div>
-                  <?php endforeach; ?>
-                </dl>
-              </div>
-            <?php endif; ?>
-            <!-- ファンダイビング -->
-            <?php
-              $page_id = get_page_by_path('price');
-              $page_id = $page_id->ID; //ページIDを取得して$page_idに代入
-              $licensePrices = SCF::get('price_fun-diving', $page_id); // 繰り返しフィールドの値を取得する
-              if (!empty($licensePrices) && !empty(array_filter($licensePrices[0]))) : // 空でない配列かつ中身が空でない場合に処理を行う
-            ?>
-            <div class="price__block price-block">
-              <h3 class="price-block__title">ファンダイビング</h3>
-              <dl class="price-block__items">
+          <?php if (have_posts()) : ?>
+            <?php while (have_posts()) : the_post(); ?>
+              <div class="price__content">
                 <?php
-                  foreach ($licensePrices as $licensePrice) : // 繰り返し構文で各値を順次取り出す
-                    $licenseCourse = esc_html($licensePrice['fun-diving_course']); // fun-diving_courseをエスケープ処理して変数に代入する
-                    $licenseFee = esc_html($licensePrice['fun-diving_fee']); // fun-diving_feeをエスケープ処理して変数に代入する
+                // 料金表1から4までのループ
+                for ($i = 1; $i <= 4; $i++) :
+                  // 料金表のフィールドを取得
+                  $priceItems = SCF::get_option_meta('price-options', "price-list_$i");
+                  $programName = SCF::get_option_meta('price-options', "program_$i");
+
+                  // 空でない配列かつ中身が空でない場合に処理を行う
+                  if (!empty($priceItems) && !empty(array_filter($priceItems[0]))) :
                 ?>
-                <div class="price-block__item">
-                  <dt><?php echo $licenseCourse; ?></dt>
-                  <dd><?php echo $licenseFee; ?></dd>
-                </div>
-                <?php endforeach; ?>
-              </dl>
-            </div>
-            <?php endif; ?>
-            <!-- スペシャルダイビング -->
-            <?php
-              $page_id = get_page_by_path('price');
-              $page_id = $page_id->ID; //ページIDを取得して$page_idに代入
-              $licensePrices = SCF::get('price_special', $page_id); // 繰り返しフィールドの値を取得する
-              if (!empty($licensePrices) && !empty(array_filter($licensePrices[0]))) : // 空でない配列かつ中身が空でない場合に処理を行う
-            ?>
-            <div class="price__block price-block">
-              <h3 class="price-block__title">スペシャルダイビング</h3>
-              <dl class="price-block__items">
-                <?php
-                  foreach ($licensePrices as $licensePrice) : // 繰り返し構文で各値を順次取り出す
-                    $licenseCourse = esc_html($licensePrice['special_course']); // special_courseをエスケープ処理して変数に代入する
-                    $licenseFee = esc_html($licensePrice['special_fee']); // special_feeをエスケープ処理して変数に代入する
+                    <div class="price__block price-block">
+                      <h3 class="price-block__title"><?php echo $programName; ?></h3>
+                      <dl class="price-block__items">
+                        <?php foreach ($priceItems as $priceItem) : ?>
+                          <div class="price-block__item">
+                            <?php
+                            // コース名と価格の取得
+                            $course = esc_html($priceItem["course_$i"]);
+                            $price = esc_html($priceItem["price_$i"]);
+                            ?>
+                            <dt><?php echo $course; ?></dt>
+                            <dd><?php echo $price; ?></dd>
+                          </div>
+                        <?php endforeach; ?>
+                      </dl>
+                    </div>
+                <?php endif;
+                endfor;
                 ?>
-                <div class="price-block__item">
-                  <dt><?php echo $licenseCourse; ?></dt>
-                  <dd><?php echo $licenseFee; ?></dd>
-                </div>
-                <?php endforeach; ?>
-              </dl>
-            </div>
-            <?php endif; ?>
-          </div>
-        <?php endwhile; ?>
-      <?php endif; ?>
+              </div>
+            <?php endwhile; ?>
+          <?php endif; ?>
         </div>
         <div class="price__button-wrap">
-          <a href="<?php echo $price ?>" class="button">View&nbsp;more<span></span></a>
+          <a href="<?php echo $pricePage ?>" class="button">View&nbsp;more<span></span></a>
         </div>
       </div>
     </section>

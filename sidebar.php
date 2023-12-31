@@ -31,7 +31,7 @@ $campaign = esc_url(home_url('/campaign'));
               <?php
               if (has_post_thumbnail()) :
                 echo get_the_post_thumbnail(get_the_ID(), 'thumbnail');
-              else:
+              else :
                 echo '<img src="' . esc_url(get_template_directory_uri()) . '/assets/images/common/noimage.png" alt="サムネイル画像no-image" />';
               endif;
               ?>
@@ -75,7 +75,13 @@ $campaign = esc_url(home_url('/campaign'));
               <?php endif; ?>
             </div>
             <div class="voice-card-small__body">
-              <div class="voice-card-small__age-sex"><?php the_field('voice_age_gender'); ?></div>
+              <?php if (have_rows('voice_age_gender')) : ?>
+                <?php while (have_rows('voice_age_gender')) : the_row(); ?>
+                  <?php if (!empty(get_sub_field('age'))) : ?>
+                    <div class="voice-card__age-sex"><?php the_sub_field('age'); ?>代(<?php the_sub_field('gender'); ?>)</div>
+                  <?php endif; ?>
+                <?php endwhile; ?>
+              <?php endif; ?>
               <h3 class="voice-card-small__title"><?php the_title(); ?></h3>
             </div>
           </div>

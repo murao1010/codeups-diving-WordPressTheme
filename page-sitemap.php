@@ -89,15 +89,21 @@
                 <li class="sitemap__nav-item">
                   <a href="<?php echo $price; ?>">料金一覧</a>
                   <ul class="sitemap__sub-nav">
+                  <?php
+                    // 料金表1から4までのループ
+                    for ($i = 1; $i <= 4; $i++) :
+                      // 料金表のフィールドを取得
+                      $priceItems = SCF::get_option_meta('price-options', "price-list_$i");
+                      $programName = SCF::get_option_meta('price-options', "program_$i");
+                      // 空でない配列かつ中身が空でない場合に処理を行う
+                      if (!empty($priceItems) && !empty(array_filter($priceItems[0]))) :
+                    ?>
                     <li class="sitemap__sub-nav-item">
-                      <a href="<?php echo $price; ?>#LicenseCourse">ライセンス講習</a>
+                      <a href="<?php echo $price; ?>#<?php echo "Course$i"; ?>"><?php echo $programName; ?></a>
                     </li>
-                    <li class="sitemap__sub-nav-item">
-                      <a href="<?php echo $price; ?>#TrialDiving">体験ダイビング</a>
-                    </li>
-                    <li class="sitemap__sub-nav-item">
-                      <a href="<?php echo $price; ?>#FunDiving">ファンダイビング</a>
-                    </li>
+                    <?php endif;
+                    endfor;
+                    ?>
                   </ul>
                 </li>
               </ul>
