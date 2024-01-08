@@ -32,7 +32,7 @@ $contact = esc_url(home_url('/contact'));
       <!-- Swiper -->
       <div class="js-mv-swiper">
         <div class="swiper-wrapper">
-        <?php
+          <?php
           // ACFで作成したカスタムフィールドから画像情報を取得
           $i = 1;
           while ($desktop_image = get_field('desktop_image_' . $i)) :
@@ -41,14 +41,14 @@ $contact = esc_url(home_url('/contact'));
             // デスクトップ画像とモバイル画像が両方存在する場合にのみ処理を追加
             if ($desktop_image && $mobile_image) :
           ?>
-            <div class="swiper-slide">
-              <div class="mv__image">
-                <picture>
-                  <source srcset="<?php echo esc_url($desktop_image['url']); ?>" media="(min-width: 768px)">
-                  <img src="<?php echo esc_url($mobile_image['url']); ?>" alt="<?php echo esc_attr($mobile_image['alt']); ?>">
-                </picture>
+              <div class="swiper-slide">
+                <div class="mv__image">
+                  <picture>
+                    <source srcset="<?php echo esc_url($desktop_image['url']); ?>" media="(min-width: 768px)">
+                    <img src="<?php echo esc_url($mobile_image['url']); ?>" alt="<?php echo esc_attr($mobile_image['alt']); ?>">
+                  </picture>
+                </div>
               </div>
-            </div>
           <?php
             endif;
             $i++;
@@ -103,9 +103,9 @@ $contact = esc_url(home_url('/contact'));
                               foreach ($terms as $term) :
                                 echo $term->name;
                               endforeach;
-                              else :
-                                echo '未分類';
-                              endif;
+                            else :
+                              echo '未分類';
+                            endif;
                             ?>
                           </p>
                           <h3 class="campaign-card__title"><?php the_title(); ?></h3>
@@ -113,11 +113,19 @@ $contact = esc_url(home_url('/contact'));
                         <div class="campaign-card__price-block">
                           <p class="campaign-card__text">全部コミコミ(お一人様)</p>
                           <div class="campaign-card__price-wrap">
-                            <?php if (!empty(get_field('campaign_price_before'))) : ?>
-                              <p class="campaign-card__price-before"><?php the_field('campaign_price_before'); ?></p>
-                            <?php endif; ?>
-                            <?php if (!empty(get_field('campaign_price_after'))) : ?>
-                              <p class="campaign-card__price-after"><?php the_field('campaign_price_after'); ?></p>
+                            <?php if (have_rows('campaign_price')) : ?>
+                              <?php while (have_rows('campaign_price')) : the_row(); ?>
+                                <?php
+                                $price_before = get_sub_field('campaign_price_before');
+                                $price_after = get_sub_field('campaign_price_after');
+                                ?>
+                                <?php if ($price_before) : ?>
+                                  <p class="campaign-card__price-before"><?php echo $price_before; ?></p>
+                                <?php endif; ?>
+                                <?php if ($price_after) : ?>
+                                  <p class="campaign-card__price-after"><?php echo $price_after; ?></p>
+                                <?php endif; ?>
+                              <?php endwhile; ?>
                             <?php endif; ?>
                           </div>
                         </div>
@@ -127,9 +135,9 @@ $contact = esc_url(home_url('/contact'));
                 <?php endwhile; ?>
                 <!-- ▲ Swiper ループ ▲ -->
                 <?php wp_reset_postdata(); ?>
-                <?php else : ?>
+              <?php else : ?>
                 <p>まだ投稿がありません。</p>
-                <?php endif; ?>
+              <?php endif; ?>
               </div>
           </div>
           <!-- 前後の矢印 -->
@@ -278,7 +286,7 @@ $contact = esc_url(home_url('/contact'));
                 <div class="voice-card__head">
                   <div class="voice-card__head-textarea">
                     <div class="voice-card__tag-wrap">
-                    <?php if (have_rows('voice_age_gender')) : ?>
+                      <?php if (have_rows('voice_age_gender')) : ?>
                         <?php while (have_rows('voice_age_gender')) : the_row(); ?>
                           <?php if (!empty(get_sub_field('age'))) : ?>
                             <div class="voice-card__age-sex"><?php the_sub_field('age'); ?>代(<?php the_sub_field('gender'); ?>)</div>
@@ -292,9 +300,9 @@ $contact = esc_url(home_url('/contact'));
                           foreach ($terms as $term) :
                             echo $term->name;
                           endforeach;
-                          else :
-                            echo '未分類';
-                          endif;
+                        else :
+                          echo '未分類';
+                        endif;
                         ?>
                       </div>
                     </div>

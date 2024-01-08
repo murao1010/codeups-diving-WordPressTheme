@@ -128,11 +128,19 @@ $campaign = esc_url(home_url('/campaign'));
               <div class="campaign-card-small__price-block">
                 <p class="campaign-card-small__text">全部コミコミ(お一人様)</p>
                 <div class="campaign-card-small__price-wrap">
-                  <?php if (!empty(get_field('campaign_price_before'))) : ?>
-                    <p class="campaign-card-small__price-before"><?php the_field('campaign_price_before'); ?></p>
-                  <?php endif; ?>
-                  <?php if (!empty(get_field('campaign_price_after'))) : ?>
-                    <p class="campaign-card-small__price-after"><?php the_field('campaign_price_after'); ?></p>
+                  <?php if (have_rows('campaign_price')) : ?>
+                    <?php while (have_rows('campaign_price')) : the_row(); ?>
+                      <?php
+                      $price_before = get_sub_field('campaign_price_before');
+                      $price_after = get_sub_field('campaign_price_after');
+                      ?>
+                      <?php if ($price_before) : ?>
+                        <p class="campaign-card-small__price-before"><?php echo $price_before; ?></p>
+                      <?php endif; ?>
+                      <?php if ($price_after) : ?>
+                        <p class="campaign-card-small__price-after"><?php echo $price_after; ?></p>
+                      <?php endif; ?>
+                    <?php endwhile; ?>
                   <?php endif; ?>
                 </div>
               </div>
