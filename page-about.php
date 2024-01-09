@@ -15,7 +15,7 @@
     </div>
   </section>
   <!-- パンくず -->
-  <?php get_template_part('/breadcrumb') ?>
+  <?php get_template_part('parts/breadcrumb') ?>
 
   <!-- 私たちについて -->
   <div class="lower-about about-main">

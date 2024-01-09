@@ -15,7 +15,7 @@
     </div>
   </section>
   <!-- パンくず -->
-  <?php get_template_part('/breadcrumb') ?>
+  <?php get_template_part('parts/breadcrumb') ?>
   <!-- コンテンツ -->
   <div class="lower-privacy-policy privacy-policy">
     <div class="privacy-policy__inner inner">
@@ -26,7 +26,7 @@
             <?php the_content(); ?>
           <?php endwhile; ?>
         <?php endif; ?>
-      </div>
+          </div>
     </div>
   </div>
 

@@ -15,7 +15,7 @@
     </div>
   </section>
   <!-- パンくず -->
-  <?php get_template_part('/breadcrumb') ?>
+  <?php get_template_part('parts/breadcrumb') ?>
   <!-- コンテンツ -->
   <div class="lower-terms terms">
     <div class="terms__inner inner">

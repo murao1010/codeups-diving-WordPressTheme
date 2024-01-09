@@ -15,7 +15,7 @@
     </div>
   </section>
   <!-- パンくず -->
-  <?php get_template_part('/breadcrumb') ?>
+  <?php get_template_part('parts/breadcrumb') ?>
   <!-- 料金一覧 -->
   <div class="lower-price price-main">
     <div class="price-main__inner inner">
@@ -60,4 +60,4 @@
     </div>
   </div>
 
-<?php get_footer(); ?>
+  <?php get_footer(); ?>

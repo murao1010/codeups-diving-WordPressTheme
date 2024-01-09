@@ -3,7 +3,7 @@
   <!-- メインコンテンツ -->
   <main class="sorry-main">
     <!-- パンくず -->
-    <?php get_template_part('/breadcrumb') ?>
+    <?php get_template_part('parts/breadcrumb') ?>
     <div class="lower-sorry sorry">
       <div class="sorry__inner inner">
         <h2 class="sorry__title">404</h2>

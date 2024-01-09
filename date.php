@@ -14,7 +14,7 @@
     </div>
   </section>
   <!-- パンくず -->
-  <?php get_template_part('/breadcrumb') ?>
+  <?php get_template_part('parts/breadcrumb') ?>
   <!-- ブログ一覧 -->
   <div class="lower-blog blog-main">
     <div class="blog-main__inner inner">

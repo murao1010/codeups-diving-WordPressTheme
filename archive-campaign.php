@@ -19,7 +19,7 @@ $contact = esc_url(home_url('/contact'));
     </div>
   </section>
   <!-- パンくず -->
-  <?php get_template_part('/breadcrumb') ?>
+  <?php get_template_part('parts/breadcrumb') ?>
   <!-- キャンペーン -->
   <div class="lower-campaign campaign-main">
     <div class="campaign-main__inner inner">

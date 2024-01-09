@@ -15,7 +15,7 @@
     </div>
   </section>
   <!-- パンくず -->
-  <?php get_template_part('/breadcrumb') ?>
+  <?php get_template_part('parts/breadcrumb') ?>
   <!-- お客様の声 -->
   <div class="lower-voice voice-main">
     <div class="voice-main__inner inner">
